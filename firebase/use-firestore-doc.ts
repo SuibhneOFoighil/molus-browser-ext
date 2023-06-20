@@ -1,5 +1,5 @@
 import {
-  DocumentData,
+  type DocumentData,
   DocumentSnapshot,
   doc,
   getDoc,
