@@ -29,10 +29,12 @@ export const useFirebase = () => {
   const onLogin = () => {
     setIsLoading(true)
     chrome.identity.getAuthToken({ interactive: true }, async function (token) {
+      //TODO: make this work for edge / safari??
       if (chrome.runtime.lastError || !token) {
-        console.error(chrome.runtime.lastError)
+        console.error(chrome.runtime.lastError.message)
         setIsLoading(false)
-        return
+        throw chrome.runtime.lastError
+        return 
       }
       if (token) {
         const credential = GoogleAuthProvider.credential(null, token)

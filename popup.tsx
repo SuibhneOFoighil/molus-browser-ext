@@ -1,8 +1,9 @@
-import { useFirebase } from "~firebase/hook"
+// import { useFirebase } from "~firebase/hook"
 import { useEffect, useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Storage } from "@plasmohq/storage"
 
+// import RenderLogin from "~RenderLogin"
 import RenderMessage from "~RenderMessage"
 import Message from "~message"
 import { addVideoToCollection, queryVideo } from "~chat"
@@ -10,10 +11,8 @@ import "./popup.css"
 
 const YouChatPopup = () => {
 
-  //TODO: add firebase authentication
-  const { user, isLoading, onLogin, onLogout } = useFirebase()
-
   // STATE VARIABLES
+  // const { user, isLoading, onLogin, onLogout } = useFirebase()
   const [response, setResponse] = useState(null)
   const [gettingResponse, setGettingResponse] = useState(false)
   const [query, setQuery] = useState(null)
@@ -131,14 +130,14 @@ const YouChatPopup = () => {
       <div className="chatHeader">
         <img id="headerLogo" src={require('./assets/icon.png')} alt="ᐅᐅ"></img>
         <div id="chatHeaderTitle">YouChat</div>
-        <button id="clear" onClick={clearHistory}>x</button>
       </div>
       <div className="chatHistory">
         <ul className="feed">
           {chatHistory.map((message, index) => RenderMessage(message, index))}
-        </ul> 
+        </ul>
       </div>
       <div className="chatFooter">
+        <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
         <div className="inputBox">
           <textarea id="input" placeholder="Summarize it or Ask Questions." onChange={(e) => setQuery(e.target.value)}/>
           <div className="inputBoxButtons">
