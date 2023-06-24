@@ -1,9 +1,8 @@
-// import { useFirebase } from "~firebase/hook"
+import { useFirebase } from "~firebase/hook"
 import { useEffect, useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Storage } from "@plasmohq/storage"
 
-// import RenderLogin from "~RenderLogin"
 import RenderMessage from "~RenderMessage"
 import Message from "~message"
 import { addVideoToCollection, queryVideo } from "~chat"
@@ -12,7 +11,7 @@ import "./popup.css"
 const YouChatPopup = () => {
 
   // STATE VARIABLES
-  // const { user, isLoading, onLogin, onLogout } = useFirebase()
+  const { user, isLoading, onLogin, onLogout } = useFirebase()
   const [response, setResponse] = useState(null)
   const [gettingResponse, setGettingResponse] = useState(false)
   const [query, setQuery] = useState(null)
@@ -123,7 +122,8 @@ const YouChatPopup = () => {
     setChatHistory(init_chat_history);
     console.log("clearHistory called");
   }
-  // clearHistory();
+
+  const dummyuser = true;
 
   return (
     <div className="chatBox">
@@ -131,27 +131,38 @@ const YouChatPopup = () => {
         <img id="headerLogo" src={require('./assets/icon.png')} alt="ᐅᐅ"></img>
         <div id="chatHeaderTitle">YouChat</div>
       </div>
-      <div className="chatHistory">
-        <ul className="feed">
-          {chatHistory.map((message, index) => RenderMessage(message, index))}
-        </ul>
-      </div>
-      <div className="chatFooter">
-        <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
-        <div className="inputBox">
-          <textarea id="input" placeholder="Summarize it or Ask Questions." onChange={(e) => setQuery(e.target.value)}/>
-          <div className="inputBoxButtons">
-            { 
-              gettingResponse ? 
-              <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
-              <button id="send" onClick={getResponse}>ᐅᐅ</button> 
-            }
+        {!dummyuser ? (
+          <div className="chatLogin">
+            <p id="loginUVP">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <button id="login-btn"onClick={() => onLogin()}>Login</button>
+            <p id="signup">Not a YouChat user? <a id="signup-link">Signup Here</a></p>
+          </div>
+        ) : (
+        <div className="chatBody">
+          <div className="chatHistory">
+          {/* <button onClick={() => onLogout()}>Logout</button> */}
+          <ul className="feed">
+            {chatHistory.map((message, index) => RenderMessage(message, index))}
+          </ul>
+          </div>
+          <div className="chatFooter">
+            <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
+            <div className="inputBox">
+              <textarea id="input" placeholder="Summarize it or Ask Questions." onChange={(e) => setQuery(e.target.value)}/>
+              <div className="inputBoxButtons">
+                { 
+                  gettingResponse ? 
+                  <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
+                  <button id="send" onClick={getResponse}>ᐅᐅ</button> 
+                }
+              </div>
+            </div>
+            <p className="disclaimer">
+              YouChat is in private alpha: pls send me <a href="mailto:molus.suibhne@gmail.com">feedback</a> ♡
+            </p>
           </div>
         </div>
-        <p className="disclaimer">
-          YouChat is in private alpha: pls send me <a href="mailto:molus.suibhne@gmail.com">feedback</a> ♡
-        </p>
-      </div>
+        )}
     </div>
   )
 }
