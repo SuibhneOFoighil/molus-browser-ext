@@ -66,6 +66,12 @@ ul {
     align-items: center;
 }
 
+#loginUVP,
+#login-btn,
+#login-disclaimer {
+    padding: 20;
+}
+
 #loginUVP {
     margin: 10;
     padding: 10;
@@ -76,7 +82,7 @@ ul {
 #login-btn {
     display: flex;
     flex-direction: row;
-    margin: 0;
+    margin: 5;
     padding: 10 20;
     border-radius: 5px;
     border: none;
@@ -92,8 +98,8 @@ ul {
     box-shadow: 0 0 5px var(--primary-red);
 }
 
-#signup {
-    margin: 10px;
+#login-disclaimer {
+    margin-top: 20px;
     padding: 10px;
     font-size: .75em;
     text-align: center;

@@ -131,11 +131,11 @@ const YouChatPopup = () => {
         <img id="headerLogo" src={require('./assets/icon.png')} alt="ᐅᐅ"></img>
         <div id="chatHeaderTitle">YouChat</div>
       </div>
-        {!dummyuser ? (
+        {!user ? (
           <div className="chatLogin">
-            <p id="loginUVP">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p id="loginUVP">Know the content faster: ask questions and get answers from the source.</p>
             <button id="login-btn"onClick={() => onLogin()}>Login</button>
-            <p id="signup">Not a YouChat user? <a id="signup-link">Signup Here</a></p>
+            <p id="login-disclaimer">YOUCHAT IS FREE FOR BETA TESTING ❤️</p>
           </div>
         ) : (
         <div className="chatBody">
@@ -157,9 +157,7 @@ const YouChatPopup = () => {
                 }
               </div>
             </div>
-            <p className="disclaimer">
-              YouChat is in private alpha: pls send me <a href="mailto:molus.suibhne@gmail.com">feedback</a> ♡
-            </p>
+            <p className="disclaimer"> YOUCHAT IS FREE FOR BETA TESTING ❤️.</p>
           </div>
         </div>
         )}
