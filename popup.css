@@ -3,10 +3,11 @@
     --secondary-white:#F2F2F2;
     --tirtiary-white:#dedede;
     --primary-black:#212121;
-    --primary-red:#ff3636;
+    --primary-purple:#6101ff;
     --primary-blue: cornflowerblue;
     --width: 300px;
     color: var(--primary-black);
+    /* font-weight: 300; */
 }   
 
 .chatFooter,
@@ -46,15 +47,16 @@ ul {
     margin: 0;
     padding: 0;
     font-size: 2.0em;
-    font-weight: 600;
+    font-weight:500;
 }
 
 #headerLogo {
     max-width: 40px;
-    max-width: 40px;
+    max-height: 35px;
     padding: 0;
     margin: 0;
-    margin-right: 3px;
+    margin-right: 5;
+    border-radius: 5;
 }
 
 .chatLogin {
@@ -66,17 +68,19 @@ ul {
     align-items: center;
 }
 
-#loginUVP,
-#login-btn,
-#login-disclaimer {
-    padding: 20;
-}
-
 #loginUVP {
     margin: 10;
     padding: 10;
     font-size: 1.2em;
     text-align: center;
+    font-weight: 300;
+}
+
+#loginTag {
+    margin-bottom: 5;
+    padding: 0;
+    font-weight: 300;
+    font-style: italic;
 }
 
 #login-btn {
@@ -91,11 +95,11 @@ ul {
     color: var(--primary-white);
     cursor: pointer;
     width: auto;
-    background-color: var(--primary-red);
+    background-color: var(--primary-purple);
 }
 
 #login-btn:hover {
-    box-shadow: 0 0 5px var(--primary-red);
+    box-shadow: 0 0 5px var(--primary-purple);
 }
 
 #login-disclaimer {
@@ -136,13 +140,12 @@ ul {
     border: 1px solid var(--tirtiary-white);
     border-radius: 10px;
     box-shadow: 0 0 10px var(--tirtiary-white);
-    /* text-align: justify; */
-    /* word-break: break-all; */
 }
 
 .question {
     margin: 0;
     font-style: italic;
+    font-weight: 300;
 }
 
 #clear {
@@ -190,6 +193,7 @@ ul {
     border-radius: 5px;
     padding: 5;
     background-color: transparent;
+    font-size: .95em;
 }
 
 #input:focus {
@@ -205,21 +209,22 @@ ul {
 
 #send {
     position: absolute;
-    right: 15px;
-    bottom: 37px;
+    right: 13px;
+    bottom: 36px;
 
     margin: 0;
     padding: 5; 
     border-radius: 90px;
     border: none;
 
-    font-size: .7em;
+    max-width: 15px;
+    max-height: 15px;
     cursor: pointer;
     background-color: transparent;
 }
 
 #send:hover {
-    background-color: var(--tirtiary-white);
+    background-color: var(--secondary-white);
 }
 
 #loading {
@@ -234,6 +239,21 @@ ul {
     font-size: .75em;
     text-align: center;
     margin: 0;
-    margin-top: 5px;
+    margin-top: 2px;
     padding: 0;
+}
+
+#logout {
+    position: absolute;
+    right: 7px;
+
+    cursor: pointer;
+    font-size: .9em;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+}
+
+#logout:hover {
+    background-color: var(--secondary-white);
 }

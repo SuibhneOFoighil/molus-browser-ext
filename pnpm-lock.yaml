@@ -14,6 +14,9 @@ dependencies:
   plasmo:
     specifier: 0.76.3
     version: 0.76.3(react-dom@18.2.0)(react@18.2.0)
+  puro:
+    specifier: 0.3.4
+    version: 0.3.4(react@18.2.0)
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -5278,6 +5281,15 @@ packages:
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
+    dev: false
+
+  /puro@0.3.4(react@18.2.0):
+    resolution: {integrity: sha512-RaSw5CiWPMgarim/fT2E4uDSDuCnqcJAJPqcy4Fhc3xqr1+sHaEBLbCqPPwz2Kny2DDpZtu+BGOEw/BeGQCLAA==}
+    hasBin: true
+    peerDependencies:
+      react: '>=17 || >=18'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /queue-microtask@1.2.3:

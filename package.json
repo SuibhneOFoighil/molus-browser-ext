@@ -1,8 +1,8 @@
 {
-  "name": "you-chat",
-  "displayName": "YouChat",
-  "version": "0.0.1",
-  "description": "A search engine for YouTube content",
+  "name": "molus",
+  "displayName": "Molus",
+  "version": "0.0.4",
+  "description": "A search engine for video content",
   "author": "Suibhne O Foighil",
   "scripts": {
     "dev": "plasmo dev",
@@ -14,7 +14,8 @@
     "firebase": "9.22.1",
     "plasmo": "0.76.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "puro": "0.3.4"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.4",
@@ -27,18 +28,34 @@
   },
   "manifest": {
     "key": "$CRX_PUBLIC_KEY",
-    "host_permissions": [
-      "https://www.youtube.com/watch*"
-    ],
     "permissions": [
-      "identity"
+      "identity",
+      "identity.email",
+      "activeTab"
     ],
     "oauth2": {
-      "client_id": "$PLASMO_PUBLIC_FIREBASE_CLIENT_ID",
+      "client_id": "$OAUTH_CLIENT_ID",
       "scopes": [
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile"
       ]
+    },
+    "commands": {
+      "load_molus": {
+        "suggested_key": {
+          "default": "Ctrl+M",
+          "mac": "Command+M"
+        },
+        "description": "Load the content and send to Molus."
+      },
+      "_execute_action": {
+        "suggested_key": {
+          "windows": "Ctrl+M",
+          "mac": "Command+M",
+          "chromeos": "Ctrl+M",
+          "linux": "Ctrl+M"
+        }
+      }
     }
   }
 }

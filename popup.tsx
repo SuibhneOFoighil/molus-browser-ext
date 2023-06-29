@@ -6,9 +6,10 @@ import { Storage } from "@plasmohq/storage"
 import RenderMessage from "~RenderMessage"
 import Message from "~message"
 import { addVideoToCollection, queryVideo } from "~chat"
+import { UserInfoProvider, useUserInfo } from "~core/user-info"
 import "./popup.css"
 
-const YouChatPopup = () => {
+const MolusPopup = () => {
 
   // STATE VARIABLES
   const { user, isLoading, onLogin, onLogout } = useFirebase()
@@ -22,7 +23,7 @@ const YouChatPopup = () => {
     new Message({
       video_id: videoId,
       query: "",
-      answer: "Hey👋, welcome to YouChat! Open a YouTube video and ask me anything about it. I'll try my best to answer!",
+      answer: "Hey👋, welcome to Molus! Open a YouTube video and ask me about it. I'll try my best to answer!",
       citations: "",
       timestamp: new Date(Date.now()).toString()
     })
@@ -123,24 +124,37 @@ const YouChatPopup = () => {
     console.log("clearHistory called");
   }
 
-  const dummyuser = true;
+  // const dummyuser = true;
+ 
+  // const EmailShowcase = () : JSX.Element => {
+  //   const userInfo = useUserInfo()
+
+  //   return (
+  //     <div>
+  //       Your email is: <b>{userInfo?.email}</b>
+  //       Your id is: <b>{userInfo?.id}</b>
+  //     </div>
+  //   )
+  // }
+  // <UserInfoProvider>
+  //   <EmailShowcase />
+  // </UserInfoProvider>
 
   return (
     <div className="chatBox">
       <div className="chatHeader">
         <img id="headerLogo" src={require('./assets/icon.png')} alt="ᐅᐅ"></img>
-        <div id="chatHeaderTitle">YouChat</div>
+        <div id="chatHeaderTitle">Molus</div>
       </div>
-        {!user ? (
+        {!!!user ? (
           <div className="chatLogin">
-            <p id="loginUVP">Know the content faster: ask questions and get answers from the source.</p>
+            <p id="loginUVP"><p id="loginTag">Know the content faster:</p> chat with YouTube videos, ask questions, and get the answer from the source.</p>
             <button id="login-btn"onClick={() => onLogin()}>Login</button>
-            <p id="login-disclaimer">YOUCHAT IS FREE FOR BETA TESTING ❤️</p>
+            <p id="login-disclaimer">Molus is free for early birds 💜.</p>
           </div>
         ) : (
         <div className="chatBody">
           <div className="chatHistory">
-          {/* <button onClick={() => onLogout()}>Logout</button> */}
           <ul className="feed">
             {chatHistory.map((message, index) => RenderMessage(message, index))}
           </ul>
@@ -148,16 +162,19 @@ const YouChatPopup = () => {
           <div className="chatFooter">
             <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
             <div className="inputBox">
-              <textarea id="input" placeholder="Summarize it or Ask Questions." onChange={(e) => setQuery(e.target.value)}/>
+              <textarea id="input" placeholder="What points are covered in the video?" onChange={(e) => setQuery(e.target.value)}/>
               <div className="inputBoxButtons">
                 { 
                   gettingResponse ? 
                   <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
-                  <button id="send" onClick={getResponse}>ᐅᐅ</button> 
+                  <img id="send" src={require('./assets/fast-forward.png')} alt="⏫" onClick={getResponse}></img>
                 }
               </div>
             </div>
-            <p className="disclaimer"> YOUCHAT IS FREE FOR BETA TESTING ❤️.</p>
+            <p className="disclaimer">
+              Molus is currently free 💜.
+              <button onClick={() => onLogout()} id="logout">Logout</button>
+            </p>
           </div>
         </div>
         )}
@@ -165,4 +182,4 @@ const YouChatPopup = () => {
   )
 }
 
-export default YouChatPopup;
+export default MolusPopup;
