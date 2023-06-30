@@ -111,7 +111,7 @@ ul {
 
 .chatHistory {
     margin-top: 55px;
-    margin-bottom: 80px;
+    margin-bottom: 65px;
     background-color: var(--primary-white);
 }
 
@@ -150,11 +150,14 @@ ul {
 
 #clear {
     position: absolute;
-    right: 11px;    
-    bottom: 82px;
+    right: 9px;    
+    bottom: 68px;
     max-width: 23px;
     max-height: 23px;
     cursor: pointer;
+
+    /* position: relative;
+    left: 260; */
 
     margin: 0;
     padding: 5; 
@@ -162,6 +165,10 @@ ul {
     opacity: .95;
 
     background-color: var(--secondary-white);
+}
+
+#clear:hover {
+    background-color: var(--tirtiary-white);
 }
 
 .chatFooter {
@@ -194,6 +201,8 @@ ul {
     padding: 5;
     background-color: transparent;
     font-size: .95em;
+    border: transparent;
+    /* box-shadow: 0 0 10px var(--tirtiary-white); */
 }
 
 #input:focus {
@@ -209,22 +218,22 @@ ul {
 
 #send {
     position: absolute;
-    right: 13px;
-    bottom: 36px;
+    right: 8px;
+    bottom: 17px;
 
     margin: 0;
     padding: 5; 
     border-radius: 90px;
     border: none;
 
-    max-width: 15px;
-    max-height: 15px;
+    max-width: 18px;
+    max-height: 18px;
     cursor: pointer;
-    background-color: transparent;
+    background-color: var(--secondary-white);
 }
 
 #send:hover {
-    background-color: var(--secondary-white);
+    background-color: var(--tirtiary-white);
 }
 
 #loading {
@@ -255,5 +264,5 @@ ul {
 }
 
 #logout:hover {
-    background-color: var(--secondary-white);
+    background-color: var(--tirtiary-white);
 }

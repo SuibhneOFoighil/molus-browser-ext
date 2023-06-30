@@ -124,6 +124,14 @@ const MolusPopup = () => {
     console.log("clearHistory called");
   }
 
+  const handleSend = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      getResponse();
+      setQuery("");
+    }
+  }
+
   // const dummyuser = true;
  
   // const EmailShowcase = () : JSX.Element => {
@@ -160,21 +168,31 @@ const MolusPopup = () => {
           </ul>
           </div>
           <div className="chatFooter">
-            <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
+            <img id="clear" src={require('./assets/broom.png')} alt="clear" title="Clear the chat." onClick={clearHistory}></img>
             <div className="inputBox">
-              <textarea id="input" placeholder="What points are covered in the video?" onChange={(e) => setQuery(e.target.value)}/>
+              <textarea 
+                id="input" 
+                placeholder="What points are covered in the video?" 
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyPress={handleSend}
+              />
               <div className="inputBoxButtons">
                 { 
                   gettingResponse ? 
                   <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
-                  <img id="send" src={require('./assets/fast-forward.png')} alt="⏫" onClick={getResponse}></img>
+                  <img 
+                    id="send" 
+                    src={require('./assets/fast-forward.png')} alt="⏩" 
+                    onClick={getResponse}
+                    title="Get the answer."
+                  ></img>
                 }
               </div>
             </div>
-            <p className="disclaimer">
+            {/* <p className="disclaimer">
               Molus is currently free 💜.
               <button onClick={() => onLogout()} id="logout">Logout</button>
-            </p>
+            </p> */}
           </div>
         </div>
         )}
