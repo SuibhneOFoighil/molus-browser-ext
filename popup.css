@@ -111,7 +111,7 @@ ul {
 
 .chatHistory {
     margin-top: 55px;
-    margin-bottom: 65px;
+    margin-bottom: 55px;
     background-color: var(--primary-white);
 }
 
@@ -150,8 +150,8 @@ ul {
 
 #clear {
     position: absolute;
-    right: 9px;    
-    bottom: 68px;
+    right: 6px;    
+    bottom: 56px;
     max-width: 23px;
     max-height: 23px;
     cursor: pointer;
@@ -174,33 +174,36 @@ ul {
 .chatFooter {
     bottom: 0;
     z-index: 300;
-    padding: 10px;
+    padding: 0;
+    height: 45;
+    width: 100%;
     position: fixed;
     width: calc(var(--width) - 20px);
 }
 
-.inputBox {
+/* .inputBox {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-bottom: 5px;
+    padding: 1 5;
+    margin-top: 8;
+    height: 80%;
     width: 100%;
-}
+} */
 
 #input {
     resize: none;
-    margin: 0;
-    padding: 0;
-    height: 20px;
-    width: 100%;
+    padding: 12;
+    margin-bottom: 5;
+    height: auto;
+    width: 92%;
     overflow: auto;
     font-size: inherit;
     font-family: inherit;
     border-radius: 5px;
-    padding: 5;
     background-color: transparent;
-    font-size: .95em;
+    /* font-size: .95em; */
     border: transparent;
     /* box-shadow: 0 0 10px var(--tirtiary-white); */
 }
@@ -219,7 +222,7 @@ ul {
 #send {
     position: absolute;
     right: 8px;
-    bottom: 17px;
+    bottom: 10px;
 
     margin: 0;
     padding: 5; 
@@ -229,7 +232,9 @@ ul {
     max-width: 18px;
     max-height: 18px;
     cursor: pointer;
-    background-color: var(--secondary-white);
+    background-color: var(--primary-white);
+    opacity: .95;
+    /* background-image: linear-gradient(to right, #EB5776 , #ce5bff); */
 }
 
 #send:hover {
@@ -238,10 +243,12 @@ ul {
 
 #loading {
     position: absolute;
-    right: 18px;
-    bottom: 41px;
-    max-width: 17px;
-    max-height: 17px;
+    right: 11px;
+    bottom: 14px;
+    max-width: 18px;
+    max-height: 18px;
+    background-color: var(--primary-white);
+    opacity: .95;
 }
 
 .disclaimer {

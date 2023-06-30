@@ -1,7 +1,7 @@
 {
   "name": "molus",
   "displayName": "Molus",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A search engine for video content",
   "author": "Suibhne O Foighil",
   "scripts": {
@@ -30,7 +30,6 @@
     "key": "$CRX_PUBLIC_KEY",
     "permissions": [
       "identity",
-      "identity.email",
       "activeTab"
     ],
     "oauth2": {

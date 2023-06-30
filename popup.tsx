@@ -172,20 +172,21 @@ const MolusPopup = () => {
             <div className="inputBox">
               <textarea 
                 id="input" 
-                placeholder="What points are covered in the video?" 
+                placeholder="Press enter to send a message..." 
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyPress={handleSend}
               />
               <div className="inputBoxButtons">
                 { 
                   gettingResponse ? 
-                  <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
-                  <img 
-                    id="send" 
-                    src={require('./assets/fast-forward.png')} alt="⏩" 
-                    onClick={getResponse}
-                    title="Get the answer."
-                  ></img>
+                  <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> :
+                  <></>
+                  // <img 
+                  //   id="send" 
+                  //   src={require('./assets/fast-forward.png')} alt="⏩" 
+                  //   onClick={getResponse}
+                  //   title="Get the answer."
+                  // ></img>
                 }
               </div>
             </div>
