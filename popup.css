@@ -109,6 +109,15 @@ ul {
     text-align: center;
 }
 
+.videoLoader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+    padding: 10px;
+}
+
 .chatHistory {
     margin-top: 55px;
     margin-bottom: 55px;
