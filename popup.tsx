@@ -5,6 +5,9 @@ import { Storage } from "@plasmohq/storage"
 
 import RenderMessage from "~RenderMessage"
 import Message from "~message"
+import RenderSummary from "~RenderSummary"
+import Summary from "~summary"
+
 import { addVideoToCollection, queryVideo } from "~chat"
 import { UserInfoProvider, useUserInfo } from "~core/user-info"
 import "./popup.css"
@@ -19,22 +22,19 @@ const MolusPopup = () => {
   const [videoId, setVideoId] = useState(null)
 
   // STORAGE VARIABLES
-  const init_chat_history = [
-    new Message({
-      video_id: videoId,
-      query: "",
-      answer: "Hey👋, welcome to Molus! Open a YouTube video and ask me about it. I'll try my best to answer!",
-      citations: "",
-      timestamp: new Date(Date.now()).toString()
-    })
-  ]
-
-  const [chatHistory, setChatHistory] = useStorage<Message[]>({
+  const [chatHistoryDict, setChatHistoryDict] = useStorage<Record<string, Message[]>>({
     key: "chatHistory",
     instance: new Storage({
       area: "local"
     })
-  }, (v) => v == undefined ? init_chat_history : v);
+  }, (v) => v == undefined ? {} : v);
+
+  const [videoSummaryDict, setVideoSummaryDict] = useStorage<Record<string, Summary>>({
+    key: "videoSummary",
+    instance: new Storage({
+      area: "local"
+    })
+  }, (v) => v == undefined ? {} : v)
 
   // GET VIDEO ID
   useEffect(() => {
@@ -46,7 +46,21 @@ const MolusPopup = () => {
       console.log("video_id: " + video_id);
     });
   }, [])
-    // UPDATE CHAT HISTORY
+
+  const init_chat_history = [
+    new Message({
+      video_id: videoId,
+      query: "",
+      answer: "Hey👋, welcome to Molus! Open a YouTube video and ask me about it. I'll try my best to answer!",
+      citations: "",
+      timestamp: new Date(Date.now()).toString()
+    })
+  ]
+
+  let chatHistory = chatHistoryDict[videoId] || init_chat_history;
+  let videoSummary = videoSummaryDict[videoId] || null;
+
+  // UPDATE CHAT HISTORY
   useEffect(() => {
     if (response != null) {
       const newMessage = new Message({
@@ -57,9 +71,24 @@ const MolusPopup = () => {
         timestamp: new Date(Date.now()).toString()
       })
       const newChatHistory = [newMessage, ...chatHistory]
-      setChatHistory(newChatHistory)
+      chatHistory = newChatHistory
+      setChatHistoryDict({
+        ...chatHistoryDict,
+        [videoId]: newChatHistory
+      })
     }
-  }, [response]) 
+  }, [response])
+
+  // Remove INIT message
+  useEffect(() => {
+    if (videoSummary != null && chatHistory.length > 0 && chatHistory[0].answer == init_chat_history[0].answer) {
+      chatHistory.shift()
+      setChatHistoryDict({
+        ...chatHistoryDict,
+        [videoId]: chatHistory
+      })
+    }
+  }, [videoSummary])
 
   // EVENT HANDLERS
   async function getResponse() {
@@ -90,7 +119,7 @@ const MolusPopup = () => {
         return
     }
 
-    const addCollectionResponse = await addVideoToCollection(videoId);
+    const addCollectionResponse = await addVideoToCollection(videoId, false);
     const success = addCollectionResponse['success'];
     if (!success) {
         console.log("failed to add video to collection");
@@ -118,10 +147,62 @@ const MolusPopup = () => {
     });
   }
 
+  async function getSummary() {
+    // get summary from server
+    setGettingResponse(true);
+    console.log("getSummary called");
+    console.log("videoId: " + videoId);
+    if (videoId == null) {
+      console.log("videoId is null");
+      setGettingResponse(false);
+      return
+    }
+
+    const addCollectionResponse = await addVideoToCollection(videoId, true);
+    const success = addCollectionResponse['success'];
+    if (!success) {
+        console.log("failed to add video to collection");
+        setGettingResponse(false);
+        return
+    }
+
+    const summaryJson = addCollectionResponse['summary'];
+    const summary = new Summary(summaryJson);
+    videoSummary = summary;
+    setVideoSummaryDict({
+      ...videoSummaryDict,
+      [videoId]: summary
+    })
+    setGettingResponse(false);
+  }
+
   // HELPER FUNCTIONS
   function clearHistory() {
-    setChatHistory(init_chat_history);
+    setChatHistoryDict({
+      ...chatHistoryDict,
+      [videoId]: init_chat_history
+    })
+    setVideoSummaryDict({
+      ...videoSummaryDict,
+      [videoId]: null
+    })
     console.log("clearHistory called");
+  }
+
+  const handleSend = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // get summary if it doesn't exist
+      // otherwise get response
+      if (videoSummary == null) {
+        console.log("videoSummary is null");
+        getSummary();
+      } else {
+        console.log("videoSummary is not null");
+        getResponse();
+      }
+      e.target.value = "";
+    }
   }
 
   // const dummyuser = true;
@@ -140,6 +221,8 @@ const MolusPopup = () => {
   //   <EmailShowcase />
   // </UserInfoProvider>
 
+  // setVideoSummary(null);
+
   return (
     <div className="chatBox">
       <div className="chatHeader">
@@ -157,24 +240,36 @@ const MolusPopup = () => {
           <div className="chatHistory">
           <ul className="feed">
             {chatHistory.map((message, index) => RenderMessage(message, index))}
+            {RenderSummary(videoSummary)}
           </ul>
           </div>
           <div className="chatFooter">
-            <img id="clear" src={require('./assets/broom.png')} alt="clear" onClick={clearHistory}></img>
+            {/* <img id="clear" src={require('./assets/broom.png')} alt="clear" title="Clear the chat." onClick={clearHistory}></img> */}
             <div className="inputBox">
-              <textarea id="input" placeholder="What points are covered in the video?" onChange={(e) => setQuery(e.target.value)}/>
+              <textarea 
+                id="input" 
+                placeholder={ (videoSummary == null) ? "Press enter to load the video!" :  "Press enter to send a message..."  } 
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyPress={handleSend}
+              />
               <div className="inputBoxButtons">
                 { 
                   gettingResponse ? 
-                  <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> : 
-                  <img id="send" src={require('./assets/fast-forward.png')} alt="⏫" onClick={getResponse}></img>
+                  <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> :
+                  <></>
+                  // <img 
+                  //   id="send" 
+                  //   src={require('./assets/fast-forward.png')} alt="⏩" 
+                  //   onClick={getResponse}
+                  //   title="Get the answer."
+                  // ></img>
                 }
               </div>
             </div>
-            <p className="disclaimer">
+            {/* <p className="disclaimer">
               Molus is currently free 💜.
               <button onClick={() => onLogout()} id="logout">Logout</button>
-            </p>
+            </p> */}
           </div>
         </div>
         )}

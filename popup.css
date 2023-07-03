@@ -111,7 +111,7 @@ ul {
 
 .chatHistory {
     margin-top: 55px;
-    margin-bottom: 80px;
+    margin-bottom: 55px;
     background-color: var(--primary-white);
 }
 
@@ -142,6 +142,49 @@ ul {
     box-shadow: 0 0 10px var(--tirtiary-white);
 }
 
+#summaryTitle {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    font-weight: 400;
+    font-style: italic;
+}
+
+#summaryChannel {
+    margin: 0;
+    margin-top: 5;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 1.1em;
+    font-weight: 300;
+}
+
+#summaryKeypointsHeader {
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+}
+
+#summaryKeypoints {
+    /* margin-left: ; */
+    list-style: none;
+    margin-top: 5;
+}
+
+.keypoint {
+    margin: 0;
+    padding: 5 0;
+    font-weight: 400;
+    font-size: .9em;
+}
+
+.keypointBullet {
+    margin: 0;
+    padding: 0;
+    font-weight: 200;
+    font-size: .9em;
+}
+
 .question {
     margin: 0;
     font-style: italic;
@@ -150,8 +193,8 @@ ul {
 
 #clear {
     position: absolute;
-    right: 11px;    
-    bottom: 82px;
+    right: 7px;    
+    bottom: 7px;
     max-width: 23px;
     max-height: 23px;
     cursor: pointer;
@@ -167,33 +210,36 @@ ul {
 .chatFooter {
     bottom: 0;
     z-index: 300;
-    padding: 10px;
+    padding: 0;
+    height: 45;
+    width: 100%;
     position: fixed;
     width: calc(var(--width) - 20px);
 }
 
-.inputBox {
+/* .inputBox {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-bottom: 5px;
     width: 100%;
-}
+} */
 
 #input {
     resize: none;
-    margin: 0;
-    padding: 0;
-    height: 20px;
-    width: 100%;
+    padding: 12;
+    margin-bottom: 5;
+    height: 20;
+    width: 92%;
     overflow: auto;
     font-size: inherit;
     font-family: inherit;
     border-radius: 5px;
-    padding: 5;
     background-color: transparent;
-    font-size: .95em;
+    /* font-size: .95em; */
+    border: transparent;
+    /* box-shadow: 0 0 10px var(--tirtiary-white); */
 }
 
 #input:focus {
@@ -229,10 +275,10 @@ ul {
 
 #loading {
     position: absolute;
-    right: 18px;
-    bottom: 41px;
-    max-width: 17px;
-    max-height: 17px;
+    right: 10px;
+    bottom: 12px;
+    max-width: 20px;
+    max-height: 20px;
 }
 
 .disclaimer {
