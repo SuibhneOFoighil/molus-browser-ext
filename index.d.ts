@@ -7,7 +7,11 @@ declare namespace NodeJS {
 
     OAUTH_CLIENT_ID?: string
 
-    CRX_PUBLIC_KEY?: string
-    CRX_PRIVATE_KEY?: string
+    PLASMO_PUBLIC_GTAG_ID?: string
   }
+}
+ 
+interface Window {
+  dataLayer: Array
+  gtag: (a: string, b: any, c?: any) => void
 }

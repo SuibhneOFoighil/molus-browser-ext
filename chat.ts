@@ -1,11 +1,12 @@
+import type { User } from "firebase/auth";
 import { extractTextBetween } from "~helpers";
 
 // API CONSTANTS
-// const API_URL = "http://localhost:5000"
-const API_URL = "https://youtubechat-api.herokuapp.com/"
+const API_URL = "http://localhost:5000"
+// const API_URL = "https://youtubechat-api.herokuapp.com/"
 const API_KEY = "1f7c267c-6761-44d5-bb03-54ba0fe284e2";
 
-async function addVideoToCollection(video_id: string, summary: boolean) : Promise<Record<string, any>> {
+async function addVideoToCollection(video_id: string, summary: boolean, user: User) : Promise<Record<string, any>> {
     console.log("addVideoToCollection called for video_id: " + video_id);
 
     const apiUrl = new URL(API_URL + "/chat");
@@ -14,6 +15,8 @@ async function addVideoToCollection(video_id: string, summary: boolean) : Promis
     if (summary) {
         apiUrl.searchParams.append('summary', 'true');
     }
+    apiUrl.searchParams.append('user_id', user.uid);
+    apiUrl.searchParams.append('email', user.email);
 
     const headers = {
         'Authorization': API_KEY
@@ -44,7 +47,7 @@ async function addVideoToCollection(video_id: string, summary: boolean) : Promis
     }
 }
 
-async function queryVideo(query: string, video_id: string) : Promise<Record<string, any>> {
+async function queryVideo(query: string, video_id: string, user: User) : Promise<Record<string, any>> {
     console.log("queryVideo called for video_id: " + video_id);
     const apiUrl = new URL(API_URL + "/chat");
     const headers = {
@@ -52,7 +55,9 @@ async function queryVideo(query: string, video_id: string) : Promise<Record<stri
     }
     const params = {
         'query': query,
-        'video_id': video_id
+        'video_id': video_id,
+        'user_id': user.uid,
+        'email': user.email
     }   
     for (const key in params) {
         apiUrl.searchParams.append(key, params[key]);
@@ -70,4 +75,18 @@ async function queryVideo(query: string, video_id: string) : Promise<Record<stri
     }
 }
 
-export { addVideoToCollection, queryVideo}
+// function sendSkipEvent(video_id: string, skipped_time: number) {
+//     const endpoint = API_URL + "/event";
+//     const headers = {
+//         'Authorization': API_KEY,
+//         'video_id': video_id,
+//         'data': JSON.stringify({timestamp: skipped_time})
+//     }
+//     const postData = {
+//         method: 'POST',
+//         headers: headers,
+//     } 
+//     //format headers for request
+// }
+
+export { addVideoToCollection, queryVideo }

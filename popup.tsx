@@ -1,3 +1,5 @@
+import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
+
 import { useFirebase } from "~firebase/hook"
 import { useEffect, useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
@@ -9,7 +11,6 @@ import RenderSummary from "~RenderSummary"
 import Summary from "~summary"
 
 import { addVideoToCollection, queryVideo } from "~chat"
-import { UserInfoProvider, useUserInfo } from "~core/user-info"
 import "./popup.css"
 
 const MolusPopup = () => {
@@ -36,6 +37,24 @@ const MolusPopup = () => {
     })
   }, (v) => v == undefined ? {} : v)
 
+  // GOOGLE ANALYTICS
+  const [data, setData] = useState("")
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments) // eslint-disable-line
+    }
+    window.gtag("js", new Date())
+    window.gtag("config", process.env.PLASMO_PUBLIC_GTAG_ID, {
+      page_path: "/popup",
+      debug_mode: true
+    })
+ 
+    window.gtag("event", "login", {
+      method: "TEST"
+    })
+  }, [])
+
   // GET VIDEO ID
   useEffect(() => {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -44,6 +63,7 @@ const MolusPopup = () => {
       const video_id = url.searchParams.get("v");
       setVideoId(video_id);
       console.log("video_id: " + video_id);
+      setData(video_id);
     });
   }, [])
 
@@ -119,7 +139,7 @@ const MolusPopup = () => {
         return
     }
 
-    const addCollectionResponse = await addVideoToCollection(videoId, false);
+    const addCollectionResponse = await addVideoToCollection(videoId, false, user);
     const success = addCollectionResponse['success'];
     if (!success) {
         console.log("failed to add video to collection");
@@ -131,7 +151,7 @@ const MolusPopup = () => {
         return
     }
 
-    queryVideo(query, videoId)
+    queryVideo(query, videoId, user)
     .then((data) => {
         console.log("data: " + data);
         setResponse(data);
@@ -154,16 +174,24 @@ const MolusPopup = () => {
     console.log("videoId: " + videoId);
     if (videoId == null) {
       console.log("videoId is null");
+      setResponse({
+        'answer': "Hey sorry, we can't chat right now😕. Please open a YouTube video and try again!",
+        'citations': ''
+      })
       setGettingResponse(false);
       return
     }
 
-    const addCollectionResponse = await addVideoToCollection(videoId, true);
+    const addCollectionResponse = await addVideoToCollection(videoId, true, user);
     const success = addCollectionResponse['success'];
     if (!success) {
-        console.log("failed to add video to collection");
-        setGettingResponse(false);
-        return
+      console.log("failed to add video to collection");
+      setResponse({
+        'answer': "Hey sorry, we can't chat right now: " + addCollectionResponse['error'],
+        'citations': ''
+      })
+      setGettingResponse(false);
+      return
     }
 
     const summaryJson = addCollectionResponse['summary'];
@@ -206,22 +234,6 @@ const MolusPopup = () => {
   }
 
   // const dummyuser = true;
- 
-  // const EmailShowcase = () : JSX.Element => {
-  //   const userInfo = useUserInfo()
-
-  //   return (
-  //     <div>
-  //       Your email is: <b>{userInfo?.email}</b>
-  //       Your id is: <b>{userInfo?.id}</b>
-  //     </div>
-  //   )
-  // }
-  // <UserInfoProvider>
-  //   <EmailShowcase />
-  // </UserInfoProvider>
-
-  // setVideoSummary(null);
 
   return (
     <div className="chatBox">
@@ -239,12 +251,17 @@ const MolusPopup = () => {
         <div className="chatBody">
           <div className="chatHistory">
           <ul className="feed">
+            {/* <div id="export-container">
+              export to google docs
+              <img id="export" src={require('./assets/google-docs.png')} alt="Export" title="Export to Google Docs" onClick={() => alert('clicked!')}></img>
+            </div> */}
             {chatHistory.map((message, index) => RenderMessage(message, index))}
             {RenderSummary(videoSummary)}
           </ul>
           </div>
           <div className="chatFooter">
             {/* <img id="clear" src={require('./assets/broom.png')} alt="clear" title="Clear the chat." onClick={clearHistory}></img> */}
+
             <div className="inputBox">
               <textarea 
                 id="input" 
@@ -257,12 +274,6 @@ const MolusPopup = () => {
                   gettingResponse ? 
                   <img id="loading" src={require('./assets/loading.gif')} alt="loading..."></img> :
                   <></>
-                  // <img 
-                  //   id="send" 
-                  //   src={require('./assets/fast-forward.png')} alt="⏩" 
-                  //   onClick={getResponse}
-                  //   title="Get the answer."
-                  // ></img>
                 }
               </div>
             </div>

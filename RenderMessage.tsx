@@ -1,5 +1,7 @@
 import { formatTimestamp } from "./helpers"
 import Message from "~message";
+// import { sendSkipEvent } from "~chat";
+// import { User } from "~fire"
 
 function Citation(citation: string, video_id: string, index: number) {
 
@@ -14,17 +16,21 @@ function Citation(citation: string, video_id: string, index: number) {
   return (
     <li className="citation-line" key={index} onClick={(e) => {
       //get the URL from the current tab
-      //add the timestamp to the URL and reload the page
       chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         let tab = tabs[0];
         let url = new URL(tab.url);
+
+        // log click event in API
+        // sendSkipEvent(video_id, timestamp as unknown as number);
+
+        // update the URL with the timestamp
         url.searchParams.set('t', timestamp);
         url.searchParams.set('v', video_id);
         const newUrl = url.toString();
         chrome.tabs.update(tab.id, { url: newUrl});
       });
     }}>
-      {citationNumber} @ <span className="citation">{timestampString}</span>
+      {citationNumber} <span className="citation">{timestampString}</span>
     </li>
   )
 }

@@ -191,6 +191,30 @@ ul {
     font-weight: 300;
 }
 
+#export {
+    /* position: absolute;
+    right: 7px;    
+    bottom: 57px; */
+    max-width: 23px;
+    max-height: 23px;
+    cursor: pointer;
+
+    margin: 0;
+    padding: 5; 
+    border-radius: 10px;
+    opacity: .75;
+
+    background-color: var(--secondary-white);
+    border: 1px solid var(--tirtiary-white);
+    /* box-shadow: 0 5 10px var(--tirtiary-white); */
+}
+
+#export:hover {
+    box-shadow: 0 0 5px var(--primary-blue);
+    opacity: 1;
+    background-color: var(--tirtiary-white);
+}
+
 #clear {
     position: absolute;
     right: 7px;    
