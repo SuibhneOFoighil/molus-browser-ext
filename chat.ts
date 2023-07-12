@@ -2,8 +2,8 @@ import type { User } from "firebase/auth";
 import { extractTextBetween } from "~helpers";
 
 // API CONSTANTS
-const API_URL = "http://localhost:5000"
-// const API_URL = "https://youtubechat-api.herokuapp.com/"
+// const API_URL = "http://localhost:5000"
+const API_URL = "https://youtubechat-api.herokuapp.com/"
 const API_KEY = "1f7c267c-6761-44d5-bb03-54ba0fe284e2";
 
 async function addVideoToCollection(video_id: string, summary: boolean, user: User) : Promise<Record<string, any>> {

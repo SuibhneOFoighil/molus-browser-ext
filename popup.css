@@ -109,6 +109,15 @@ ul {
     text-align: center;
 }
 
+.videoLoader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+    padding: 10px;
+}
+
 .chatHistory {
     margin-top: 55px;
     margin-bottom: 55px;
@@ -223,12 +232,19 @@ ul {
     max-height: 23px;
     cursor: pointer;
 
+    /* position: relative;
+    left: 260; */
+
     margin: 0;
     padding: 5; 
     border-radius: 90px;
     opacity: .95;
 
     background-color: var(--secondary-white);
+}
+
+#clear:hover {
+    background-color: var(--tirtiary-white);
 }
 
 .chatFooter {
@@ -246,7 +262,9 @@ ul {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-bottom: 5px;
+    padding: 1 5;
+    margin-top: 8;
+    height: 80%;
     width: 100%;
 } */
 
@@ -279,22 +297,24 @@ ul {
 
 #send {
     position: absolute;
-    right: 13px;
-    bottom: 36px;
+    right: 8px;
+    bottom: 10px;
 
     margin: 0;
     padding: 5; 
     border-radius: 90px;
     border: none;
 
-    max-width: 15px;
-    max-height: 15px;
+    max-width: 18px;
+    max-height: 18px;
     cursor: pointer;
-    background-color: transparent;
+    background-color: var(--primary-white);
+    opacity: .95;
+    /* background-image: linear-gradient(to right, #EB5776 , #ce5bff); */
 }
 
 #send:hover {
-    background-color: var(--secondary-white);
+    background-color: var(--tirtiary-white);
 }
 
 #loading {
@@ -325,5 +345,5 @@ ul {
 }
 
 #logout:hover {
-    background-color: var(--secondary-white);
+    background-color: var(--tirtiary-white);
 }

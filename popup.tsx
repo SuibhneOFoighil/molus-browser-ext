@@ -1,5 +1,3 @@
-import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
-
 import { useFirebase } from "~firebase/hook"
 import { useEffect, useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
@@ -37,24 +35,6 @@ const MolusPopup = () => {
     })
   }, (v) => v == undefined ? {} : v)
 
-  // GOOGLE ANALYTICS
-  const [data, setData] = useState("")
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || []
-    window.gtag = function gtag() {
-      window.dataLayer.push(arguments) // eslint-disable-line
-    }
-    window.gtag("js", new Date())
-    window.gtag("config", process.env.PLASMO_PUBLIC_GTAG_ID, {
-      page_path: "/popup",
-      debug_mode: true
-    })
- 
-    window.gtag("event", "login", {
-      method: "TEST"
-    })
-  }, [])
-
   // GET VIDEO ID
   useEffect(() => {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -63,7 +43,6 @@ const MolusPopup = () => {
       const video_id = url.searchParams.get("v");
       setVideoId(video_id);
       console.log("video_id: " + video_id);
-      setData(video_id);
     });
   }, [])
 
